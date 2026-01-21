@@ -1,16 +1,39 @@
-# React + Vite
+# SPA React (Routing, Auth, Lazy, API)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación práctica de 2 sesiones con React Router, login simulado, rutas privadas, lazy loading y consumo de JSONPlaceholder.
 
-Currently, two official plugins are available:
+## Requisitos
+- Node.js 18+
+- npm
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Instalación y ejecución
+```bash
+npm install        # instala dependencias
+npm run dev        # servidor dev en http://localhost:5173
+npm run build      # build de producción en dist/
+npm run preview    # sirve la build para comprobarla
+```
 
-## React Compiler
+## Estructura clave
+- src/pages: vistas Home, Login, Dashboard (lazy), Users
+- src/router: AppRouter, Layout con menú, PrivateRoute (protege Dashboard)
+- src/store: AuthContext (estado y funciones login/logout)
+- src/services: api.js (cliente axios y fetchUsers)
+- src/App.jsx: monta AuthProvider + AppRouter
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Cómo funciona
+- Navegación SPA: BrowserRouter + Routes en AppRouter.
+- Login simulado: AuthContext expone `login('admin')` y `logout()`; guarda usuario en memoria.
+- Ruta privada: PrivateRoute redirige a /login si no hay usuario y recuerda la página previa.
+- Lazy loading: Dashboard se importa con `lazy` y se muestra bajo Suspense.
+- Datos remotos: Users llama a JSONPlaceholder (`/users`) con axios y renderiza la lista.
 
-## Expanding the ESLint configuration
+## Flujo rápido
+1) Ir a /login y entrar con usuario `admin` (password libre).
+2) Acceder a /dashboard (solo si hay usuario).
+3) Ver /users para cargar los usuarios externos.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Control de versiones
+- Para añadir cambios: `git add README.md`
+- Para confirmar cambios: `git commit -m "Descripción del cambio"`
+- Para subir cambios: `git push origin main`
